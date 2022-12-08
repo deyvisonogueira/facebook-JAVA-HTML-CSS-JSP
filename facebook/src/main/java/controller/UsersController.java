@@ -14,7 +14,7 @@ import model.User;
 import model.dao.DAOFactory;
 import model.dao.UserDAO;
 
-@WebServlet(urlPatterns = {""})
+@WebServlet(urlPatterns = {"","/save"})
 public class UsersController extends HttpServlet {
 
 	@Override
@@ -22,6 +22,8 @@ public class UsersController extends HttpServlet {
 			throws ServletException, IOException {
 
 		String action = req.getRequestURI();
+
+		System.out.println(action);
 
 		switch (action) {
 		case "/facebook/": {
@@ -41,6 +43,35 @@ public class UsersController extends HttpServlet {
 
 				e.printStackTrace();
 			}
+			break;
+		}
+		case "/facebook/save":{
+
+			// Recuperar os dados da requisição
+			String userName = req.getParameter("user_name");
+			String userEmail = req.getParameter("user_email");
+			String userGender = req.getParameter("user_gender");
+
+			// Criar um objeto do tipo usuário
+			User user = new User();
+			user.setName(userName);
+			user.setGender(userGender);
+			user.setEmail(userEmail);
+
+			// Criar o DAO
+			UserDAO dao = DAOFactory.createDAO(UserDAO.class);
+
+			// Usar o DAO para salvar o objeto
+			try {
+				dao.save(user);
+				
+				resp.sendRedirect("/facebook");
+			}
+			catch(ModelException e) {
+				// log do servidor
+				e.printStackTrace();
+			}
+
 			break;
 		}
 

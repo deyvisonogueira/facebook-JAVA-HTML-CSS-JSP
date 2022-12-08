@@ -28,18 +28,18 @@
 					</tr>
 				</thead>
 				<tbody>
-				
-				<c:forEach var="user" items="${usuarios}">
-					<tr>
-						<th scope="row">${user.getId()}</th>
-						<td>${user.getName()}</td>
-						<td>${user.getGender()}</td>
-						<td>${user.getEmail()}</td>
-					</tr>
+
+					<c:forEach var="user" items="${usuarios}">
+						<tr>
+							<th scope="row">${user.getId()}</th>
+							<td>${user.getName()}</td>
+							<td>${user.getGender()}</td>
+							<td>${user.getEmail()}</td>
+						</tr>
 					</c:forEach>
 				</tbody>
 			</table>
-
+			<a class="btn btn-primary" href="user_form.html">Novo Usuário</a>
 		</div>
 
 		<div class="col-md-2"></div>
