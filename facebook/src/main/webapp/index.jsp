@@ -1,5 +1,4 @@
 <jsp:directive.page contentType="text/html; charset=UTF-8" />
-
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
 <!DOCTYPE html>
@@ -8,6 +7,7 @@
 <meta charset="UTF-8">
 <title>Facebook</title>
 <link rel="stylesheet" href="css/bootstrap.min.css" />
+<link rel="stylesheet" href="css/bootstrap-icons.css" />
 </head>
 <body>
 	<div class="container">
@@ -25,6 +25,7 @@
 						<th scope="col">Nome</th>
 						<th scope="col">Gênero</th>
 						<th scope="col">Email</th>
+						<th scope="col">Ações</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -35,11 +36,14 @@
 							<td>${user.getName()}</td>
 							<td>${user.getGender()}</td>
 							<td>${user.getEmail()}</td>
+							<td><a
+								href="${pageContext.request.contextPath}/user/update?userId=${user.getId()}"
+								class="bi bi-pencil-square"></a></td>
 						</tr>
 					</c:forEach>
 				</tbody>
 			</table>
-			<a class="btn btn-primary" href="user_form.html">Novo Usuário</a>
+			<a class="btn btn-primary" href="user-form.jsp">Novo Usuário</a>
 		</div>
 
 		<div class="col-md-2"></div>

@@ -14,7 +14,7 @@ import model.User;
 import model.dao.DAOFactory;
 import model.dao.UserDAO;
 
-@WebServlet(urlPatterns = {"","/save"})
+@WebServlet(urlPatterns = {"","/save", "/user/update"})
 public class UsersController extends HttpServlet {
 
 	@Override
@@ -50,7 +50,7 @@ public class UsersController extends HttpServlet {
 			// Recuperar os dados da requisição
 			String userName = req.getParameter("user_name");
 			String userEmail = req.getParameter("user_email");
-			String userGender = req.getParameter("user_gender");
+			String userGender = req.getParameter("user-gender");
 
 			// Criar um objeto do tipo usuário
 			User user = new User();
@@ -64,7 +64,7 @@ public class UsersController extends HttpServlet {
 			// Usar o DAO para salvar o objeto
 			try {
 				dao.save(user);
-				
+
 				resp.sendRedirect("/facebook");
 			}
 			catch(ModelException e) {
@@ -74,10 +74,30 @@ public class UsersController extends HttpServlet {
 
 			break;
 		}
+		case "/facebook/user/update": {
+			String userIdStr = req.getParameter("userId");
+			int userId = Integer.parseInt(userIdStr);
 
+			// Criar o DAO
+			UserDAO dao = DAOFactory.createDAO(UserDAO.class);
+
+			// Usar o DAO para salvar o objeto
+			try {
+				User user = dao.findById(userId);
+				req.setAttribute("usuario", user);
+
+				// Redirecionar a lista para a index.jsp
+				RequestDispatcher rd = req.getRequestDispatcher("/user-form.jsp");
+				rd.forward(req, resp);
+			}
+			catch (Exception e) {
+				//log do servidor
+				e.printStackTrace();
+			}
+			break;
+		}
 		default:
 			throw new IllegalArgumentException("Unexpected value: " + action);
 		}
 	}
-
 }
